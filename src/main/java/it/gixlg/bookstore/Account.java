@@ -2,6 +2,7 @@ package it.gixlg.bookstore;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 
 public class Account {
 
@@ -11,9 +12,10 @@ public class Account {
     public static final int STANDARD_POINTS_FOR_WITHDRAW = 2;
     public static final int THRESHOLD_DISCOUNT = 5;
     public static final int DISCOUNT = 1;
-    public static final int THRESHOULD_WITHDRAW = 1;
+    public static final int THRESHOLD_WITHDRAW = 1;
 
     @Getter(AccessLevel.PROTECTED)
+    @Setter(AccessLevel.PROTECTED)
     private int points;
 
     Account(int points) {
@@ -28,7 +30,7 @@ public class Account {
     }
 
     public void withdraw() throws WithdrawException {
-        if (points <= THRESHOULD_WITHDRAW) throw new WithdrawException();
+        if (points <= THRESHOLD_WITHDRAW) throw new WithdrawException();
         if (points >= THRESHOLD_DISCOUNT) {
             points = points + DISCOUNT;
         }
