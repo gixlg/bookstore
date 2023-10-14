@@ -19,17 +19,37 @@ public class Account {
     private int points;
 
     @Setter(AccessLevel.PROTECTED)
-    private State state;
+    private State state = new ContributorState(this);
 
     Account(int points) {
         this.points = points;
+        stateChangeCheck();
     }
 
     public void deposit() {
         state.deposit();
+        stateChangeCheck();
     }
 
     public void withdraw() throws WithdrawException {
         state.withdraw();
+        stateChangeCheck();
+    }
+
+    public void stateChangeCheck() {
+        this.setState(getCurrentState());
+    }
+
+    public State getCurrentState() {
+        int points = this.getPoints();
+        if (points <= THRESHOLD_WITHDRAW) {
+            return new ContributorState(this);
+        } else if (points < THRESHOLD_DISCOUNT) {
+            return new CommunityState(this);
+        } else if (points < THRESHOLD_BONUS) {
+            return new AffiliateState(this);
+        } else {
+            return new PremiumState(this);
+        }
     }
 }
