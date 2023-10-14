@@ -18,24 +18,18 @@ public class Account {
     @Setter(AccessLevel.PROTECTED)
     private int points;
 
+    @Setter(AccessLevel.PROTECTED)
+    private State state;
+
     Account(int points) {
         this.points = points;
     }
 
     public void deposit() {
-        if (points >= THRESHOLD_BONUS) {
-            points = points + BONUS;
-        }
-        points = points + STANDARD_POINT_FOR_DEPOSIT;
+        state.deposit();
     }
 
     public void withdraw() throws WithdrawException {
-        if (points <= THRESHOLD_WITHDRAW) throw new WithdrawException();
-        if (points >= THRESHOLD_DISCOUNT) {
-            points = points + DISCOUNT;
-        }
-        points = points - STANDARD_POINTS_FOR_WITHDRAW;
-
-
+        state.withdraw();
     }
 }
